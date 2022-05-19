@@ -1,4 +1,8 @@
+import { Icountrys } from './../ViewModel/icountrys';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { IPadresss } from '../ViewModel/ipadresss';
 
 /* use those apis to get user geolocations and nationality all apis accept get request
 https://backofficeapi.online-tkt.com/api/GetAllCountriesByLangName?LangCode=en
@@ -8,7 +12,7 @@ https://api.ipify.org/?format=json
 returns users ip adress
 *********
 use ip adress to get user geo location and country
-https://ipapi.co/${ip-adress}/json/
+https://ipapi.co/s/json/
 */
 
 @Injectable({
@@ -16,5 +20,17 @@ https://ipapi.co/${ip-adress}/json/
 })
 export class MyApisService {
 
-  constructor() { }
+  constructor(private httpClient:HttpClient) { }
+  getAllCountries(): Observable<Icountrys[]>
+  {
+   return this.httpClient.get<Icountrys[]>('https://backofficeapi.online-tkt.com/api/GetAllCountriesByLangName?LangCode=en');
+  }
+
+  getUserIp():Observable<IPadresss>{
+    return this.httpClient.get<IPadresss>('https://api.ipify.org/?format=json');
+  }
+
+  getUserNationality(ip:string):Observable<string>{
+   return this.httpClient.get<string>(`https://ipapi.co/${ip}/json/`)
+  }
 }

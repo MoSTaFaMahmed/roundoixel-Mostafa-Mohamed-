@@ -1,1 +1,105 @@
-<p>signup works!</p>
+<div class="container mt-5  shadow-lg p-3 mb-5 bg-white rounded">
+ <div class="row">
+  <div class="col-lg-6 col-md-6 mt-3 ">
+    <img src="https://img.freepik.com/free-vector/mobile-login-concept-illustration_114360-83.jpg?t=st=1652938847~exp=1652939447~hmac=5ec1c228afd23e05886ee02e5f7ef595a08ca091d42ac5d5c500fb8808ac3ebf&w=740" class="img-thumbnail"  alt="signup-img">
+  </div>
+   <div class="col-lg-6 col-md-6 mt-5"> <form [formGroup]="form" (ngSubmit)="register()" *ngIf="fetched">
+    <div class="mb-3">
+      <div class="mb-3">
+        <label for="name" class="form-label">Full Name</label>
+        <input
+        (keypress)="disableArabic($event)"
+          type="test"
+          class="form-control"
+          formControlName="name"
+          name="name"
+          id="name"
+        />
+        <div
+          class="alert alert-warning mt-1"
+          [hidden]="name?.valid || name?.untouched"
+        >
+
+          <small>user must use English character in name input no special characters allowed</small>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input
+          type="test"
+          class="form-control"
+          formControlName="email"
+          name="email"
+          id="email"
+        />
+        <div class="alert alert-warning mt-1" [hidden]="email?.valid || email?.untouched">
+          <small *ngIf="email?.errors?.required">Required Field!</small>
+          <small *ngIf="email?.errors?.pattern">Not Valid Format</small>
+        </div>
+
+      </div>
+
+      <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Password</label>
+        <input
+          type="password"
+          class="form-control"
+          id="exampleInputPassword1"
+          formControlName="password"
+          name="password"
+
+        />
+
+
+        <div
+        class="alert alert-warning"
+        [hidden]="password?.valid || password?.untouched"
+         >
+
+        <small>pasword doesnt accept arabic characters and min 8 char</small>
+      </div>
+      </div>
+
+
+
+      <div class="mb-3">
+        <label for="confirmPass" class="form-label">Confirm Password</label>
+        <input
+          type="password"
+          class="form-control"
+          id="confirmPass"
+          formControlName="validatePasswoed"
+        />
+        <div
+        *ngIf="form.errors?.dontmatch && (form.touched || form.dirty)"
+        class="cross-validation-error-message alert alert-danger mt-1"
+      >
+        passwords dont match
+      </div>
+      </div>
+    </div>
+
+    <label for="confirmPass" class="form-label">Nationality</label>
+    <select
+      class="form-select"
+      aria-label="Default select example"
+      [value]="nationality.country_code"
+    >
+      <option
+        [selected]="nationality.country_code == item.pseudoCountryCode"
+        [value]="item.pseudoCountryCode"
+        *ngFor="let item of countrys"
+      >
+        {{ item.countryName }}
+      </option>
+    </select>
+
+
+
+    <button [disabled]="form.invalid" type="submit" class="btn btn-primary d-block mt-3">Submit</button>
+  </form></div>
+
+ </div>
+
+</div>
