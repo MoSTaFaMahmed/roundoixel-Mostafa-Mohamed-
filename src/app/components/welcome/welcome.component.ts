@@ -14,10 +14,11 @@ export class WelcomeComponent implements OnInit {
   constructor(private authServc:AuthServiceService,private router:Router) { }
 
   ngOnInit(): void {
-    this.authServc.getLogStatus().subscribe(state=>this.userFlag=state)
-    this.authServc.getUserName().subscribe(name=>{
-      this.recivedName=name;
-    })
+    // this.authServc.getLogStatus().subscribe(state=>this.userFlag=state)
+    // this.authServc.getUserName().subscribe(name=>{
+    //   this.recivedName=name;
+    // })
+    this.recivedName = this.authServc.name;
   }
   logOut(){
     this.authServc.logOut();

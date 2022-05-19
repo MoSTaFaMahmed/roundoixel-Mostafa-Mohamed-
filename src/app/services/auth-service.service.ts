@@ -20,6 +20,10 @@ export class AuthServiceService {
     this.signUpFlag.next(true)
     this.userName.next(userName)
     console.log(this.userName);
+    localStorage.setItem('name', userName);
+  }
+  get name() {
+    return localStorage.getItem('name');
   }
 
   get IsUserSignup(): boolean {
