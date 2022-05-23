@@ -18,8 +18,12 @@ export class WelcomeComponent implements OnInit {
     // this.authServc.getUserName().subscribe(name=>{
     //   this.recivedName=name;
     // })
+
+    //get user Name
     this.recivedName = this.authServc.name;
   }
+
+  //Log Out Button
   logOut(){
     this.authServc.logOut();
     this.userFlag=this.authServc.IsUserSignup;

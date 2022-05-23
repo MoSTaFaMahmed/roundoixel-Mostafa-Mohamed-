@@ -13,7 +13,7 @@ export class AuthServiceService {
     this.userName = new BehaviorSubject<string>("")
 
   }
-
+//Sroe Token And the userName In local storag
   SignUp(userName: string) {
     let userToken = "01207284793"
     localStorage.setItem("Token", userToken)
@@ -22,10 +22,11 @@ export class AuthServiceService {
     console.log(this.userName);
     localStorage.setItem('name', userName);
   }
+  //get Name from local storage
   get name() {
     return localStorage.getItem('name');
   }
-
+//Check if user Did Signe Up or Not
   get IsUserSignup(): boolean {
     return localStorage.getItem("Token") ? true : false
   }
@@ -33,7 +34,7 @@ export class AuthServiceService {
   getUserName(): Observable<string> {
     return this.userName.asObservable()
   }
-
+//Remove Token & UserName & changFlage when user LogedOut
   logOut() {
     localStorage.removeItem("Token")
     this.signUpFlag.next(false)

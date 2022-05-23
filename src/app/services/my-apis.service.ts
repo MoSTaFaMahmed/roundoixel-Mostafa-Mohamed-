@@ -21,15 +21,16 @@ https://ipapi.co/s/json/
 export class MyApisService {
 
   constructor(private httpClient:HttpClient) { }
+  //Fetch all countries Data
   getAllCountries(): Observable<Icountrys[]>
   {
    return this.httpClient.get<Icountrys[]>('https://backofficeapi.online-tkt.com/api/GetAllCountriesByLangName?LangCode=en');
   }
-
+//Fetch IP Adress Data
   getUserIp():Observable<IPadresss>{
     return this.httpClient.get<IPadresss>('https://api.ipify.org/?format=json');
   }
-
+//Fetch Nationality BY Ip Adress
   getUserNationality(ip:string):Observable<string>{
    return this.httpClient.get<string>(`https://ipapi.co/${ip}/json/`)
   }

@@ -14,6 +14,7 @@ import { passwordValidatorMatchFn } from './passwordFalidation';
 import { IPadresss } from 'src/app/ViewModel/ipadresss';
 import { Router } from '@angular/router';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
+import { mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-signup',
@@ -33,27 +34,36 @@ export class SignupComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+
+// get All getAllCountries Data
+
     this.myServes.getAllCountries().subscribe((res) => {
       this.countrys = res;
       console.log(this.countrys);
     });
 
-    this.myServes.getUserIp().subscribe((res) => {
-      this.Ip = res;
-      console.log(this.Ip);
-      this.myServes.getUserNationality(res.ip).subscribe((result) => {
-        this.nationality = result;
-        console.log(this.nationality);
-        console.log(result);
-        this.fetched = true;
-      });
+    // Get Counter Name By using IP address
+    this.myServes.getUserIp().pipe(
+      mergeMap((res) => this.myServes.getUserNationality(res.ip))
+    ).subscribe((result) => {
+      this.nationality = result;
+      console.log(this.nationality);
+      console.log(result);
+      this.fetched = true;
     });
+
+
+
+
+
+    //Reactiv Form
 
     this.form = new FormGroup(
       {
+        // Validte Name (Requird and accept only CHAR and Spaces)
         name: new FormControl('', [
           Validators.required,
-          Validators.pattern('[A-Za-z]{1,}'),
+          Validators.pattern(/^([a-zA-Z]+\s)*[a-zA-Z]+$/),
         ]),
         email: new FormControl('', [
           Validators.required,
@@ -69,9 +79,12 @@ export class SignupComponent implements OnInit {
         ]),
         validatePasswoed: new FormControl('', [Validators.required]),
       },
+       //Match password and confirm password
       { validators: [passwordValidatorMatchFn] }
     );
   }
+
+                  //Email Validator Function
 
   emailValitor(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
@@ -96,12 +109,17 @@ export class SignupComponent implements OnInit {
     return this.form.get('password');
   }
 
+            //Submit Button
+
   register() {
     console.log(this.name);
     console.log(this.form);
     this.auth.SignUp(this.name.value);
     this.router.navigate(['/Welcome']);
   }
+
+           //Disable Arabic Language
+
   disableArabic(event: any){
     console.log(event.target.value);
     let ew=event.which;
